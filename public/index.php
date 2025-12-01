@@ -139,6 +139,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Talent Acquisition RP | Login</title>
     <?php $ver = @filemtime(__DIR__ . '/styles/login.css') ?: time(); ?>
     <link rel="stylesheet" href="styles/login.css?v=<?php echo $ver; ?>">
+    <!-- Favicons for login page (ensure browsers pick up the white logo instead of default PHP icon) -->
+    <link rel="icon" type="image/webp" href="assets/White-Bugatti-Logo.webp" sizes="64x64">
+    <link rel="icon" type="image/webp" href="assets/White-Bugatti-Logo.webp" sizes="128x128">
+    <link rel="icon" type="image/png" href="assets/White-Bugatti-Logo.png" sizes="64x64">
+    <link rel="icon" type="image/png" href="assets/White-Bugatti-Logo.png" sizes="128x128">
 </head>
 <body>
 
@@ -147,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     <div class="login-left">
         <div class="login-logo-wrap">
-          <img src="/website/ticketing-system/public/assets/bugatti-logo.png" alt="Company logo" class="login-logo" onerror="this.style.display='none'" />
+          <img src="assets/White-Bugatti-Logo.webp" alt="Company logo" class="login-logo" style="width:240px;height:auto;" onerror="this.style.display='none'" />
         </div>
         <div class="login-title">Talent Acquisition</div>
         <div class="login-subtitle">Recruitment Platform</div>

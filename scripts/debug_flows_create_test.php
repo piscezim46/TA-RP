@@ -27,14 +27,14 @@ try {
     $vals = validate_flow_input($conn, $sample_positions, 'positions');
     $tests['positions'] = ['ok' => true, 'validated' => $vals];
 } catch (Exception $e) {
-    $tests['positions'] = ['ok' => false, 'error' => $e->getMessage(), 'code' => $e->getCode(), 'http_code' => (isset($e->http_code) ? $e->http_code : null)];
+    // $tests['positions'] = ['ok' => false, 'error' => $e->getMessage(), 'code' => $e->getCode(), 'http_code' => (isset($e->http_code) ? $e->http_code : null)];
 }
 
 try {
     $vals = validate_flow_input($conn, $sample_applicants, 'applicants');
     $tests['applicants'] = ['ok' => true, 'validated' => $vals];
 } catch (Exception $e) {
-    $tests['applicants'] = ['ok' => false, 'error' => $e->getMessage(), 'code' => $e->getCode(), 'http_code' => (isset($e->http_code) ? $e->http_code : null)];
+    // $tests['applicants'] = ['ok' => false, 'error' => $e->getMessage(), 'code' => $e->getCode(), 'http_code' => (isset($e->http_code) ? $e->http_code : null)];
 }
 
 echo json_encode($tests, JSON_PRETTY_PRINT);

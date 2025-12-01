@@ -16,7 +16,7 @@
 /* Restore topbar/logo small visual rules (keeps header consistent across pages) */
 body { padding-top: var(--topbar-height); }
 .topbar .logo-section { display:flex; align-items:center; gap:12px; }
-.topbar .logo-section img { height:40px; width:auto; display:block; }
+.topbar .logo-section img { height:50px; width:auto; display:block; }
 .topbar .tagline { color: var(--accent); font-weight:600; font-size:16px; }
 
 /* Reset */

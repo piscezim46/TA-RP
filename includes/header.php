@@ -15,6 +15,13 @@ if (!empty($_SESSION['user']['force_password_reset']) && !in_array($currentScrip
 <head>
     <meta charset="utf-8">
     <title><?= htmlspecialchars($pageTitle ?? 'App') ?></title>
+    <!-- Site favicon (white logo) - provide multiple sizes so browsers can choose larger icons -->
+    <link rel="icon" type="image/webp" href="assets/White-Bugatti-Logo.webp" sizes="32x32">
+    <link rel="icon" type="image/webp" href="assets/White-Bugatti-Logo.webp" sizes="64x64">
+    <link rel="shortcut icon" href="assets/White-Bugatti-Logo.webp">
+    <!-- PNG fallback (if you prefer a PNG at various sizes, place files in public/assets and update the paths) -->
+    <link rel="icon" type="image/png" href="assets/White-Bugatti-Logo.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="assets/White-Bugatti-Logo.png" sizes="64x64">
     <!-- existing meta / css links -->
     <!-- Font Awesome (fallback) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -45,6 +52,24 @@ if (!empty($_SESSION['user']['force_password_reset']) && !in_array($currentScrip
     /* If icons are SVG elements ensure they are visible */
     .sidebar svg { display:inline-block !important; visibility:visible !important; opacity:1 !important; }
     </style>
+    <style>
+    /* Header logo sizing and hover effect */
+    .logo-section .site-logo { 
+        height: 108px; /* doubled base size */
+        width: auto; 
+        display: inline-block; 
+        vertical-align: middle; 
+        transition: transform .12s ease, box-shadow .12s ease; 
+        cursor: pointer;
+    }
+    .logo-section .site-logo:hover {
+        transform: translateY(-2px) scale(1.10); /* 10% scale on hover */
+        box-shadow: 0 6px 18px rgba(12,18,24,0.08);
+    }
+    @media (max-width:720px) {
+        .logo-section .site-logo { height: 72px; }
+    }
+    </style>
     <!-- layout and base styles (served from public/styles) -->
     <link rel="stylesheet" href="styles/layout.css">
     <!-- page-specific styles should be linked by individual pages after this include -->
@@ -54,7 +79,7 @@ if (!empty($_SESSION['user']['force_password_reset']) && !in_array($currentScrip
 
 <div class="topbar">
     <div class="logo-section">
-        <img src="/website/ticketing-system/public/assets/bugatti-logo.png" alt="bugatti-logo">
+        <img src="assets/bugatti-logo.png" alt="Bugatti logo" class="site-logo" onerror="this.onerror=null;this.src='assets/bugatti-logo.png'" />
         <span class="tagline">HELPING YOU HIRE WONDERFUL PEOPLE</span>
     </div>
     <?php

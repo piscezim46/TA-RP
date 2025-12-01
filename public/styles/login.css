@@ -86,7 +86,7 @@ body {
 }
 
 /* Logo in the left panel */
-.login-logo-wrap { display:flex; align-items:center; justify-content:center; margin-bottom:24px; }
+.login-logo-wrap { display:flex; align-items:center; justify-content:center;}
 .login-logo { width: 150px; height: auto; display:block; object-fit:contain; }
 
 /* Global fixed top-left logo */
@@ -120,7 +120,7 @@ body {
 /* Right form container */
 .container {
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
-    padding: 48px 44px;
+    padding: 38px 44px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -226,7 +226,7 @@ a:hover { text-decoration: underline; color: #ffffff; }
         overflow: auto;
     }
     .login-image { display: none; }
-    .login-left { padding: 28px; text-align: center; align-items: center; }
+    .login-left { padding: 18px; text-align: center; align-items: center; }
     .container { padding: 28px; }
 }
 
