@@ -1,8 +1,8 @@
 <?php
 $host = "localhost";
-$user = "root";
-$pass = "StrongPassword123!";
-$db   = "ticketing_db";
+$user = "talentarp_user";
+$pass = "Hayder.2085.root";
+$db   = "talentarp_db";
 
 $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
