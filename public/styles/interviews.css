@@ -1,0 +1,128 @@
+/* Interviews page styles - aligned with users.css theme */
+
+.content-area { padding: 12px; box-sizing: border-box; background: rgba(240, 240, 240, 0.9);}
+
+/* Calendar & list cards */
+#calendar { background: transparent; }
+/* Top offset: header + side nav + top margins; adjust if your header/nav sizes differ */
+:root { --interviews-top-offset: calc(var(--header-height, 72px) + var(--nav-height, 56px) + 32px); } 
+
+
+
+#calendarSection, #listSection { background:#ffffff; border-radius:8px; padding:8px; border:1px solid rgba(15,23,42,0.04); box-shadow:none; }
+
+/* Calendar container that sizes to remaining viewport space */
+.calendar-container { height: calc(100vh - var(--interviews-top-offset)); max-height: calc(100vh - var(--interviews-top-offset)); overflow: hidden; display:flex; align-items:stretch; }
+.calendar-el { flex:1; height:100%; min-height:240px; overflow:auto; }
+
+/* Right-hand records panel should match calendar appearance */
+.records-section {
+	background: rgb(255, 255, 255);
+	border-radius: 8px;
+	box-shadow: none;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+/* Card hover effect and pointer cursor */
+.records-section .card-item {
+  transition: transform .14s ease, box-shadow .14s ease, background-color .12s ease;
+  cursor: pointer;
+}
+.records-section .card-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(2,6,23,0.08);
+	background-color: rgba(255,255,255,0.02);
+}
+/* Use the requested dark background for cards */
+.records-section .card-item { background-color: #111827; }
+.records-section .card-item .font-medium { color: #ffffff; }
+.records-section .card-item .text-xs { color: #cbd5e1; }
+
+/* Inline filter panel that expands and pushes down the cards list */
+.filter-panel { max-height: 0; overflow: hidden; transition: max-height .24s ease, padding .2s ease; }
+.filter-panel.open { max-height: 360px; padding: 12px 0; }
+.filter-panel select { background: #fff; }
+
+/* Panel header buttons color: use accent #359cf6 */
+#panelRefresh, #panelFilterBtn { background: #359cf6 !important; color: #fff !important; }
+#panelRefresh:hover, #panelFilterBtn:hover { filter: brightness(0.95); }
+
+/* When hovering a card, make card text readable (black) for contrast */
+.records-section .card-item:hover .font-medium { color: #000 !important; }
+.records-section .card-item:hover .text-xs { color: #000 !important; }
+.records-section .card-item:hover .status-badge { color: #000 !important; }
+
+/* Filters */
+#filterBar select, #filterBar input[type="date"] { background: #111827; color:#fff; border:1px solid rgba(255,255,255,0.04); padding:8px 10px; border-radius:6px; }
+#filterBar button { background:#374151; color:#fff; padding:8px 10px; border-radius:6px; }
+
+/* Table */
+#interviewsTable { width:100%; border-collapse:collapse; margin-top:8px; }
+#interviewsTable th, #interviewsTable td { padding:10px; border-bottom:1px solid rgba(15,23,42,0.04); color:var(--text-main,#e5e7eb); }
+#interviewsTable thead th { font-weight:700; color:var(--text-muted,#9ca3af); background:transparent; }
+#interviewsTable tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+/* Drawer */
+#interviewDrawer { background: #0b1220; color:#e5e7eb; transition: transform .22s ease; }
+#interviewDrawer.translate-x-full { transform: translateX(100%); }
+
+/* Status badge fallback */
+.status-badge { display:inline-block; color:#fff; padding:4px 8px; border-radius:6px; font-weight:600; }
+
+/* Database error message (appears above the calendar when SQL fails) */
+.db-error { background:#fee2e2; color:#991b1b; padding:8px; border-radius:6px; margin-bottom:8px; }
+
+/* Small action button used in the table rows */
+.open-btn { background:#374151; color:#fff; padding:6px 8px; border-radius:6px; font-size:0.875rem; }
+
+@media (max-width:720px){ #interviewDrawer { width: 100%; } }
+
+
+/* FullCalendar custom event styling for interviews */
+.fc .interview-event { border: none !important; }
+.fc .interview-event .fc-event-main { white-space: normal !important; }
+.fc .fc-custom-event { display:flex !important; flex-direction:row; flex-wrap:wrap; align-items:center; gap:8px; padding:2px 6px !important; line-height:1 !important; background: transparent; }
+.fc .fc-custom-time { font-weight:700; font-size:0.72rem; line-height:1; color: inherit; }
+.fc .fc-custom-name { font-size:0.73rem; color: inherit; opacity:0.95; white-space:normal; overflow-wrap:break-word; word-break:break-word; max-width:100%; display:inline-block; }
+.fc .fc-custom-id { font-size:0.72rem; color: inherit; opacity:0.9; padding-left:8px; display:inline-block; white-space:nowrap; }
+/* Ensure events wrap and remove default list-dot if present */
+.fc .fc-event { white-space: normal !important; }
+.fc .fc-event-dot { display: none !important; }
+
+/* Force day cells to equal height and make event lists scrollable per day */
+.fc .fc-daygrid-day {
+	/* Keep cells flexible; don't force the entire column to scroll. Use min-height so layout stays even but allows the calendar grid to size naturally. */
+	min-height: 160px;
+	box-sizing: border-box;
+}
+.fc .fc-daygrid-day-frame { display:flex; flex-direction:column; height:100%; min-height:0; }
+.fc .fc-daygrid-day-top { flex: 0 0 auto; padding:6px 8px; }
+/* Events area should fill remaining cell height, scroll vertically if needed, and never show horizontal scrollbar */
+.fc .fc-daygrid-day-events { flex: 1 1 auto; min-height:0; width:100%; box-sizing:border-box; overflow-y: auto; overflow-x: hidden; padding:6px 8px; -webkit-overflow-scrolling: touch; }
+.fc .fc-daygrid-day-events .fc-event { margin-bottom:6px; max-width:100%; box-sizing:border-box; overflow: visible; white-space: normal; word-break: break-word; overflow-wrap: anywhere; }
+
+/* Ensure event elements occupy full width and have rounded corners */
+.fc .fc-event, .fc .fc-event-main { border-radius:6px; box-shadow: none; border: 0 !important; padding: 0 !important; }
+
+/* Ensure the FC internal wrappers don't add extra height */
+.fc .fc-event-main { display:flex !important; align-items:center !important; padding:0 6px !important; }
+.fc .fc-daygrid-event { min-height: 28px !important; }
+.fc .fc-daygrid-day-events .fc-event { margin-bottom:6px; }
+
+/* Subtle hover effect for calendar events */
+.fc .fc-event:hover, .fc .interview-event:hover, .fc .fc-custom-event:hover {
+	transform: translateY(-3px);
+	filter: brightness(0.98);
+	cursor: pointer;
+	transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+}
+
+/* Make sure inner custom event areas also transition smoothly */
+.fc .fc-custom-event { transition: color 120ms ease, background-color 120ms ease; }
+
+
+
+

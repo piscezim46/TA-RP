@@ -1,0 +1,273 @@
+body{
+  background: rgb(240, 240, 240,0.9);
+}
+.content-area .dashboard, .dashboard {
+  /* Fit exactly into the centralized `.content-area` (which is positioned to the viewport)
+     Do not allow the dashboard container to scroll — inner components handle their own scrolling. */
+  padding: 12px 16px 20px;
+  /* Make dashboard width exactly viewport minus sidebar width + gutter so it never exceeds the visible area */
+  max-width: calc(100vw - var(--sidebar-width) - 24px);
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Prevent dashboard-level scrolling */
+  box-sizing: border-box;
+  margin: 0; /* rely on .content-area positioning for offsets */
+  /* ensure padding doesn't push content past the calculated max-width */
+  box-sizing: border-box;
+  /* Base font for the dashboard: all text inherits this unless a selector increases it (titles) */
+  font-size: 15px;
+  /* White page background with subtle light-gray at the bottom to match request */
+  color: #111; /* ensure readable text on light background */
+}
+
+/* Prevent horizontal overflow from wide children; allow flex children to shrink */
+.content-area .dashboard, .dashboard { max-width: 100%; overflow-x: hidden; }
+.summary-stack, .table-card, .table-card .inner, .status-cards, .status-stack { min-width: 0; }
+.table-card .row, .recent-grid li, .status-card { min-width: 0; }
+.table-card table { table-layout: fixed; word-break: break-word; overflow-wrap: anywhere; }
+
+.kpis {
+  display:flex; gap:12px; flex-wrap:wrap; margin-bottom:14px;
+}
+.kpi {
+  background: #ffffff; border: 1px solid rgba(16,24,40,0.06); border-radius:12px; padding:14px 16px;
+  min-width: 220px; box-shadow: 0 6px 18px rgba(16,24,40,0.06), 0 2px 4px rgba(16,24,40,0.03);
+}
+
+/* Use subtle accent-based shadows only on interaction */
+.kpi { box-shadow: none; }
+.kpi:hover, .kpi:focus-within { box-shadow: 0 6px 18px var(--accent-shadow-subtle); transform: translateY(-2px); }
+.kpi .k { color:#9aa4b2; font-size: inherit; text-transform:uppercase; letter-spacing:0.08em; }
+.kpi .v { color:#fff; font-size: inherit; font-weight:800; line-height:1.1; margin-top:6px; }
+.kpi .s { color:#cbd5e1; font-size: inherit; margin-top:4px; }
+
+/* make table horizontally scrollable if needed */
+.table-card {
+  /* Light floating card */
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  border: 1px solid rgba(16,24,40,0.06);
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: none;
+  margin-bottom: 0;
+  display:flex; flex-direction:column; /* ensure inner layout stacks and can size */
+  color: #0b0b0b; /* darker (near-black) text on light cards for readability */
+}
+
+/* interactive elevation only when hovered or focused */
+.table-card:hover, .table-card:focus-within { box-shadow: 0 10px 28px var(--accent-shadow-subtle); transform: translateY(-2px); }
+
+/* Recent list scrollbars */
+.recent-list { overflow:auto; }
+.recent-list::-webkit-scrollbar { width:10px; }
+.recent-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius:999px; }
+.recent-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius:999px; border:2px solid transparent; background-clip: padding-box; }
+.recent-list { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.08) rgba(255,255,255,0.02); }
+.table-card table { width:100%; min-width:100%; border-collapse:collapse; table-layout:fixed; word-break:break-word; }
+.table-card .hdr { padding:14px 16px; border-bottom:1px solid rgba(16,24,40,0.06); display:flex; align-items:center; justify-content:space-between; background: transparent; }
+.table-card .hdr h3 { margin:0; color:#0f1720; font-size:1.18rem; font-weight:700; }
+.table-card th, .table-card td { padding:10px 12px; text-align:left; border-bottom:1px solid rgba(16,24,40,0.04); color:#111; font-size: inherit; }
+.table-card th { color:#475569; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; }
+.table-card tbody tr { cursor:pointer; }
+.table-card tbody tr:hover { background: rgba(255,255,255,0.035); }
+.table-card .inner { flex: 1 1 auto; overflow: hidden; display:flex; flex-direction:column; }
+.table-card .content-scroll { overflow:auto; }
+.badge-id {
+  display:inline-block; padding:4px 8px; border-radius:999px; border:1px solid rgba(16,24,40,0.06);
+  background: rgba(250,250,250,0.8); color:#0f1720; font-weight:700; font-size: inherit;
+}
+.badge-open {
+  display:inline-block; padding:4px 10px; border-radius:999px; background:#16a34a; color:#fff; font-weight:800; font-size: inherit;
+}
+.empty {
+  padding:26px; text-align:center; color:#b8c0cc;
+}
+.actions { display:flex; gap:8px; }
+.btn-orange { background: var(--accent, #2563eb); color: var(--accent-foreground, #fff); border:0; border-radius:8px; padding:8px 12px; cursor:pointer; font-weight:700; }
+.btn-ghost  { background:transparent; color:#444444e0; border:1px solid rgba(255,255,255,0.14); border-radius:8px; padding:8px 12px; cursor:pointer; }
+.btn-ghost:hover { background: rgba(255,255,255,0.06); }
+/* small status cards used in summaries */
+.status-cards { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.status-card { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:8px 10px; border-radius:10px; border:1px solid rgba(16,24,40,0.06); background:#ffffff; min-width:90px; box-shadow: 0 4px 10px rgba(16,24,40,0.03); }
+.status-card { box-shadow: none; }
+.status-card:hover { box-shadow: 0 6px 12px var(--accent-shadow-subtle); }
+.status-card .label { color:#475569; font-size: inherit; white-space:nowrap; }
+.status-card .value { color:#0f1720; font-weight:800; font-size: inherit; }
+.status-stack { display:grid; grid-template-columns:repeat(2,1fr); gap:6px; align-items:stretch; }
+.recent-list li { font-size: inherit; }
+/* Reduce font size specifically for Recent Applicants list items (further -10%) */
+#recentApplicantsList li { font-size: inherit; }
+
+/* Dashboard container that accounts for the topbar and sidebar sizing via CSS variables
+   - Uses CSS variables `--topbar-height` and `--sidebar-width` set centrally (e.g., in layout.css or runtime script)
+   - Centers content and keeps it within the visible viewport when sidebar is present
+*/
+.dashboard-container {
+  box-sizing: border-box;
+  padding: 0;
+  max-width: calc(100vw - var(--sidebar-width, 240px) - 32px);
+  width: 100%;
+  margin: 0 auto;
+  /* container is a column flex so .summary-stack can flex to fill available height */
+  display: flex;
+  flex-direction: column;
+  /* force a computed height so percentage heights on child cards are stable */
+  height: calc(100vh - var(--topbar-height, 56px) - 32px);
+}
+
+.summary-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  /* let this fill the container so child cards sized with flex-basis 30% are computed correctly */
+  flex: 1 1 auto;
+  height: 100%;
+}
+/* Each card in the grid grows naturally; card inner content scrolls where needed. */
+.summary-stack > .table-card {
+  /* each card occupies ~30% of the .summary-stack height; account for gaps between cards */
+  flex: 0 0 calc((100% - 24px) / 3);
+  height: 0; /* let flex-basis determine size */
+  min-height: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.table-card .inner {
+  /* fill card and set up internal layout for a scrollable content area
+     and a non-scrolling footer (progress) pinned to the bottom.
+     - the inner container is a column flexbox
+     - child lists / content should take flex:1 and be scrollable
+     - footer/progress should be flex:0 and remain visible at the bottom of the card
+  */
+  flex: 1 1 auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+  min-height: 0;
+  /* avoid making the entire inner area scrollable; let the designated
+     child content area (e.g. .recent-list or .content-scroll) handle scrolling */
+  overflow: visible;
+  background: transparent;
+}
+
+/* Make direct children that are the main content scrollable and flexible */
+.table-card .inner > .recent-list,
+.table-card .inner > .content-scroll,
+.table-card .inner > .scroll-area {
+  flex: 1 1 auto;
+  min-height: 0; /* required so the element may shrink and the scrollbar behaves */
+  overflow: auto;
+  max-height: none;
+}
+
+/* The main content wrapper (card-main) should take remaining space and scroll when needed */
+.table-card .inner > .card-main {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Ensure any progress/footer elements remain at the bottom and do not overlap siblings */
+.table-card .inner > .progress-track,
+.table-card .inner > .progress-legend,
+.table-card .inner .progress-footer,
+.table-card .inner > .progress-footer {
+  flex: 0 0 auto;
+  margin-top: 6px;
+  position: static; /* important: do not use absolute positioning */
+  width: 100%;
+}
+
+/* Muted / small title color: decent grey not too dark */
+.small-muted,
+.muted-top,
+.muted-right-compact,
+.muted-right,
+.badge-open { color: #6b7280; }
+.table-card .row { display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-radius:8px; background: rgba(247,249,250,0.8); }
+.table-card .row .meta { color:#475569; font-size: inherit; }
+.table-card .recent-grid { list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,1fr);gap:8px; }
+.recent-grid li { display:flex;flex-direction:column;justify-content:space-between;padding:8px 10px;border-radius:8px;background: rgba(247,249,250,0.9); box-shadow: none; }
+.recent-grid li:hover { box-shadow: 0 4px 10px var(--accent-shadow-subtle); transform: translateY(-1px); }
+.recent-list { max-height:220px; overflow:auto; }
+
+/* Responsive breakpoints: switch to 2 columns and then 1 column on small screens */
+@media (max-width: 700px) {
+  .dashboard-container { padding: calc(var(--topbar-height, 56px) + 8px) 8px 16px 8px; }
+  .table-card .inner { max-height: none; }
+}
+.timeframe-btn { padding:6px 8px; font-size: inherit; cursor:pointer; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:black; transition: background .12s ease, color .12s ease, box-shadow .12s ease, transform .08s ease; }
+.timeframe-btn:hover { background: rgba(0,0,0,0.03); }
+.timeframe-btn:focus { outline: 3px solid rgba(59,130,246,0.18); outline-offset: 2px; }
+
+/* Strong overrides to ensure timeframe button text is always visible */
+.table-card .hdr .timeframe-btn,
+.timeframe-btn {
+  color: #111 !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #111 !important;
+}
+
+/* Active state: clear visual indicator that date filtering is applied */
+.timeframe-btn.active {
+  color: rgb(255, 255, 255);
+  background: var(--accent, #2563eb);
+
+  border-color: var(--accent, #2563eb);
+  box-shadow: 0 6px 18px var(--accent-shadow-strong);
+  transform: translateY(-1px);
+}
+.table-card .hdr .timeframe-btn.active,
+.timeframe-btn.active {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  opacity: 1 !important;
+}
+.timeframe-btn.active:hover { box-shadow: 0 8px 22px rgba(var(--accent-rgb), 0.14); }
+
+/* Subtle variant for when active but placed on dark backgrounds (defensive) */
+.table-card .hdr .timeframe-btn.active { background: var(--accent, #2563eb); color: var(--accent-foreground, #fff); }
+.summary-row { display:flex; justify-content:space-between; align-items:center; }
+.summary-row .value { font-weight:800; color:#fff; }
+.small-muted { color:#9aa4b2; font-size: inherit; }
+
+/* Ensure scrolling inside specific card areas only */
+.table-card .scroll-area { overflow:auto; max-height:220px; }
+
+/* Utility classes moved from inline styles in dashboard.php */
+.val-success { color: #10b981 !important; }
+.val-warning { color: #f59e0b !important; }
+.val-muted { color: #6b7280 !important; }
+.val-primary { color: #3b82f6 !important; }
+.val-purple { color: #7c3aed !important; }
+.val-indigo { color: #8b5cf6 !important; }
+.val-teal { color: #06b6d4 !important; }
+.val-danger { color: #ef4444 !important; }
+.muted-right { text-align: right; color: #cbd5e1; font-size: 0.9em; min-width: 120px; }
+.row-ellipsis { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.name-strong { color: #000000; font-weight:700; }
+.list-item-compact { display:flex; justify-content:space-between; align-items:center; padding:6px 8px; border-radius:6px; background: rgba(255,255,255,0.02); }
+.list-item-compact-col { display:flex; flex-direction:column; justify-content:space-between; padding:6px 8px; border-radius:6px; background: rgba(255,255,255,0.02); }
+.two-col { display:flex; gap:12px; flex:1 1 0; min-height:0; }
+.col-flex { flex:1 1 0; display:flex; flex-direction:column; gap:8px; padding:8px; min-height:0; }
+.full-height { height:100%; }
+.recent-grid-single { list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(1,1fr); gap:8px; }
+.progress-track { height:12px; background: rgba(255,255,255,0.04); border-radius:999px; overflow:hidden; display:flex; }
+.progress-seg { height:100%; }
+.alert-error { margin:12px; padding:12px; border-radius:8px; color:#ffd6d6; background:#2b2b2b; border:1px solid #6b1f1f; }
+.progress-legend { display:flex; gap:6px; justify-content:space-between; font-size:12px; color:#9aa4b2; margin-top:6px; }
+.muted-top { margin-top:4px; }
+.muted-right-compact { font-size:0.85em; margin-top:6px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.small-muted-sm { color:#9aa4b2; font-size:0.8em; }

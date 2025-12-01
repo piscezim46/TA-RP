@@ -1,0 +1,50 @@
+/* Shared styles for Roles and Users pages: modal card, table, and access-rights wrapping */
+
+/* Modal overlay & card */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); align-items: center; justify-content: center; z-index: 1200; }
+.modal-overlay[style*="display: flex"] { display: flex; }
+.modal-card { background: #fff; border-radius: 10px; padding: 18px; box-shadow: none; max-width: 820px; width: 95%; margin: 0 auto; }
+.modal-card h3 { margin-top: 0; margin-bottom: 8px; }
+.modal-card .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
+
+/* Tables */
+.roles-table, .users-table { width: 100%; border-collapse: collapse; }
+.roles-table th, .roles-table td, .users-table th, .users-table td { padding: 10px 8px; border: 1px solid #e6e6e6; vertical-align: middle; }
+.roles-table thead th, .users-table thead th { background: #f3f3f3; color: #333; font-weight: 600; }
+
+/* Center table text by default */
+.roles-table th, .roles-table td, .users-table th, .users-table td { text-align: center; }
+
+/* Role/Users table spacing and visual defaults (moved from inline in PHP) */
+.roles-table, .users-table { margin-top: 8px; }
+.roles-table th, .roles-table td, .users-table th, .users-table td { padding: 8px; border: 1px solid #eee; }
+.roles-thead { color:#333; background:#f3f3f3; }
+.roles-desc { color:#666; font-size:13px; }
+.roles-col-name .roles-desc { display: block; margin-top: 4px; }
+.roles-col-id { width:6%; }
+.roles-col-name { width:28%; text-align:left; }
+.roles-col-dept { width:16%; }
+.roles-col-access { width:30%; }
+.roles-col-active { width:8%; }
+.roles-col-created { width:12%; }
+
+/* Users table specific column helpers (no inline styles in PHP) */
+.users-col-name, .users-col-email, .users-col-dept, .users-col-director, .users-col-team, .users-col-manager { text-align: left; }
+.users-col-created { text-align: center; }
+
+/* Access rights cell: allow wrapping and expand row height as needed */
+.access-rights { white-space: normal; word-break: break-word; max-width: 520px; text-align: center; }
+
+/* Make long access-rights readable on small screens */
+@media (max-width: 900px) {
+  .access-rights { max-width: 320px; }
+}
+
+/* Buttons inside table */
+.roles-table button.toggle-role, .users-table button { padding: 6px 8px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
+
+/* Small responsive tweaks */
+@media (max-width: 640px) {
+  .roles-table th:nth-child(3), .roles-table td:nth-child(3), /* hide Created on very small screens if needed */
+  .roles-table th:nth-child(4), .roles-table td:nth-child(4) { display: table-cell; }
+}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <body>
+    <h3>Bulk Upload Test</h3>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <label>Select Position:</label>
+      <select name="position_id" required>
+        <option value="1">Customer Service Agent</option>
+      </select>
+      <br><br>
+      <label>Upload 1–20 PDFs:</label>
+      <input type="file" name="resumes[]" accept="application/pdf" multiple required />
+      <br><br>
+      <button type="submit">Upload</button>
+    </form>
+
+    <div id="results" style="margin-top:16px;"></div>
+
+    <script>
+      document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+
+        const res = await fetch('upload_applicants.php', { method: 'POST', body: formData });
+        const json = await res.json();
+
+        let html = "<table border='1' cellpadding='6'><tr><th>File</th><th>Status</th><th>Ticket ID</th></tr>";
+        json.forEach(row => {
+          html += `<tr><td>${row.file}</td><td>${row.status}</td><td>${row.ticket_id || '-'}</td></tr>`;
+        });
+        html += "</table>";
+        document.getElementById('results').innerHTML = html;
+      });
+    </script>
+  </body>
+</html>

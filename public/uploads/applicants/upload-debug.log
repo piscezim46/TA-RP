@@ -1,0 +1,14 @@
+[2025-11-22T07:50:34+01:00] ENTRY: create_applicant invoked; method=POST; position_id=62; _FILES_keys=uploads; CONTENT_LENGTH=4000417; HTTP_REFERER=http://localhost/website/ticketing-system/public/applicants.php?created=13
+[2025-11-22T07:50:34+01:00] Upload processed successfully: count=1
+[2025-11-22T08:00:07+01:00] ENTRY: create_applicant invoked; method=POST; position_id=62; _FILES_keys=uploads; CONTENT_LENGTH=4000417; HTTP_REFERER=http://localhost/website/ticketing-system/public/applicants.php
+[2025-11-22T08:00:07+01:00] Upload processed successfully: count=1
+[2025-11-22T08:20:13+01:00] ENTRY: create_applicant invoked; method=POST; position_id=62; _FILES_keys=uploads; CONTENT_LENGTH=52574; HTTP_REFERER=http://localhost/website/ticketing-system/public/applicants.php?created=1
+[2025-11-22T08:20:13+01:00] Upload processed successfully: count=1
+[2025-11-24T13:58:30+01:00] ENTRY: create_applicant invoked; method=POST; position_id=65; _FILES_keys=uploads; CONTENT_LENGTH=21156724; HTTP_REFERER=http://localhost/website/ticketing-system/public/applicants.php
+[2025-11-24T13:58:30+01:00] Upload processed successfully: count=7
+[2025-11-24T14:15:27+01:00] ENTRY: create_applicant invoked; method=POST; position_id=66; _FILES_keys=uploads; CONTENT_LENGTH=21156719; HTTP_REFERER=http://localhost/website/ticketing-system/public/applicants.php
+[2025-11-24T14:15:27+01:00] Upload processed successfully: count=7
+[2025-11-30T03:50:08+01:00] ENTRY: create_applicant invoked; method=POST; position_id=68; _FILES_keys=uploads; CONTENT_LENGTH=24645650; HTTP_REFERER=http://localhost/website/ticketing-system/public/applicants.php
+[2025-11-30T03:50:08+01:00] Upload processed successfully: count=8
+[2025-11-30T15:14:26+01:00] ENTRY: create_applicant invoked; method=POST; position_id=68; _FILES_keys=uploads; CONTENT_LENGTH=46130; HTTP_REFERER=http://localhost/website/ticketing-system/public/applicants.php
+[2025-11-30T15:14:26+01:00] Upload processed successfully: count=1

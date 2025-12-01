@@ -1,0 +1,167 @@
+:root {
+  --sidebar-width: 220px;
+  --topbar-height: 64px;
+  --bg-color: rgba(220, 220, 220, 0);
+  --header-bg: #ffffff;
+  --accent: #359cf6;
+  /* RGB version of the accent color for translucent shadows */
+    /* Use white-based shadows (glow) instead of colored accent shadows */
+    --accent-rgb: 255,255,255;
+    --accent-shadow-subtle: rgba(255,255,255,0.06);
+    --accent-shadow-strong: rgba(255,255,255,0.12);
+  --accent-foreground: #ffffff00;
+  --accent-soft: rgba(255,102,0,0.06);
+}
+
+/* Restore topbar/logo small visual rules (keeps header consistent across pages) */
+body { padding-top: var(--topbar-height); }
+.topbar .logo-section { display:flex; align-items:center; gap:12px; }
+.topbar .logo-section img { height:40px; width:auto; display:block; }
+.topbar .tagline { color: var(--accent); font-weight:600; font-size:16px; }
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.collapsed-title{
+  width: auto;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-color);
+}
+
+/* ===== Layout Structure ===== */
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top Header */
+.topbar {
+  width: 100%;
+  height: var(--topbar-height);
+  background: var(--header-bg);
+  border-bottom: 1px solid #e2e2e2;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+}
+
+/* Sidebar + content container */
+.layout-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-top: var(--topbar-height);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Sidebar */
+.sidebar {
+  /* Make sidebar fixed so pages don't need a wrapper element */
+  position: fixed;
+  left: 0;
+  top: var(--topbar-height);
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  max-width: var(--sidebar-width);
+  height: calc(100vh - var(--topbar-height));
+  background: #111827;
+  color: white;
+  padding-bottom: 64px;
+  border-right: 1px solid #00000033;
+  overflow-y: auto;
+  z-index: 40;
+}
+
+/* Sidebar links */
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* Ensure each nav link is exactly 41px tall: remove vertical padding and set explicit height */
+  padding: 0 20px;
+  height: 41px;
+  color: #e5e7eb;
+  font-size: 15px;
+  line-height: 41px; /* keep text vertically centered */
+  text-decoration: none;
+  transition: 0.15s ease;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* Strong lock: ensure page-specific styles (Tailwind / FullCalendar / page CSS)
+   cannot change the sidebar row typography or computed height. Use high
+   specificity and only apply !important to typography/line-height so layout
+   remains predictable across pages. */
+.sidebar a, .sidebar .navbar-label {
+  font-size: 15px !important;
+  line-height: 41px !important;
+}
+
+
+/* Logout link styling */
+.sidebar .logout {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  /* match link row height convention used above */
+  padding: 0 20px;
+  height: 41px;
+  border-top: 0px solid rgba(255,255,255,0.04);
+}
+.sidebar .logout a { display:flex; align-items:center; gap:10px; color: #f3f4f6; text-decoration:none; line-height:41px; }
+.sidebar .logout a:hover { background: rgba(255,255,255,0.04); }
+
+.sidebar a.active {
+  background: rgba(255,255,255,0.15);
+  font-weight: 600;
+}
+
+/* Main content area */
+.content-area {
+  flex: 1;
+  /* Reserve space for the fixed sidebar so content doesn't flow underneath */
+  margin-left: var(--sidebar-width);
+  height: calc(100vh - var(--topbar-height));
+  /* Disable scrolling so dashboard content stays fixed in viewport */
+  overflow: hidden;
+  padding: 12px 12px;
+}
+
+/* Scroll only inside cards/lists */
+.scroll-box {
+  overflow-y: auto;
+}
+
+/* ===== Responsive ===== */
+
+@media (max-width: 900px) {
+  :root {
+    --sidebar-width: 70px;
+  }
+
+  .sidebar .navbar-label {
+    display: none;
+  }
+}
+
+  
+
+

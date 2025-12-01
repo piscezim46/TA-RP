@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "ai-cv-extract-fastapi"
+version = "0.1.0"
+description = "A FastAPI project for integrating an AI-powered CV extraction service using Chat PDF API."
+authors = ["Your Name <youremail@example.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.75.0"
+uvicorn = "^0.17.0"
+httpx = "^0.21.0"
+pydantic = "^1.9.0"
+sqlalchemy = "^1.4.27"
+databases = "^0.5.5"
+python-dotenv = "^0.19.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

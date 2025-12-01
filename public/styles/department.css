@@ -1,0 +1,191 @@
+/* Department page styles — dashboard light theme
+   - Uses centralized theme tokens: --accent, --accent-foreground, etc.
+   - Light surfaces, subtle greys, and accent highlights to match dashboard visuals
+*/
+
+:root {
+  /* fallbacks if variables not defined elsewhere */
+  --bg: #ffffff;
+  --panel: rgb(255, 255, 255);
+  --surface: #ffffff;
+  --muted-1: rgba(17,24,39,0.04);
+  --muted-2: rgba(17,24,39,0.08);
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --accent: #359cf6;
+}
+
+.btn-orange{
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.btn-orange:hover{
+  background: color-mix(in srgb, var(--accent) 85%, transparent);
+}
+
+.page-container,
+.content-area {
+  padding: 22px;
+  box-sizing: border-box;
+  background: var(--bg);
+  color: var(--text-main);
+}
+.content-area{
+  background: rgba(240, 240, 240, 0.9);
+}
+h2.section-title {
+  margin: 0 0 12px 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.controls {
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.btn {
+  background: var(--accent);
+  color: white;
+  border:1px solid var(--muted-1);
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+.btn.primary { background: var(--accent); color: var(--accent-foreground); border:1px solid color-mix(in srgb, var(--accent) 85%, transparent); }
+
+.small-muted { color:var(--text-muted); font-size:0.9em; }
+
+.table-wrap {
+  position: relative;
+  /* calmer white panel — use the dashboard panel token */
+  background: var(--panel);
+  color: var(--text-main);
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid var(--muted-1);
+  box-shadow: none;
+  border-left: 6px solid var(--accent);
+  overflow: hidden;
+}
+
+/* subtle paper-like texture using very light stripes */
+.table-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(135deg, rgba(0,0,0,0.01) 0 2px, transparent 2px 8px);
+  mix-blend-mode: overlay;
+  /* much lighter texture for a calmer white */
+  opacity: 0.12;
+  border-radius: 8px;
+}
+
+.users-table { width:100%; margin-top:8px; table-layout:fixed; background: transparent; border-collapse: collapse; border-spacing: 0; }
+.users-table thead th {
+  background: #f8fafc;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--muted-2);
+  font-weight:700;
+}
+.users-table thead th {
+  /* give the header a subtle tint and an accent-bottom line */
+  background: linear-gradient(180deg,#ffffff,#fbfbfc);
+  position: relative;
+}
+.users-table thead th::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent) 10%, var(--accent) 90%, transparent 100%);
+  opacity: 0.12;
+}
+.users-table th, .users-table td { padding:10px; vertical-align: middle; text-align: left; color: var(--text-main); }
+
+/* color specific columns for better scanability */
+.users-table td:nth-child(2), .users-table th:nth-child(2) { /* ID column */
+  width: 8%;
+  text-align: center;
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.00));
+}
+.users-table td:nth-child(5), .users-table th:nth-child(5) { /* Department column - subtle warm tint */
+  background: linear-gradient(90deg, rgba(255,166,102,0.03), rgba(255,166,102,0.00));
+}
+.users-table td:nth-child(7), .users-table th:nth-child(7) { /* Full Name column - slightly stronger background for readability */
+  background: rgba(250,250,251,0.6);
+}
+
+/* stronger borders for cells to improve visibility */
+.users-table td, .users-table th { border-right: none; }
+
+/* Only horizontal separators: remove internal vertical/box borders, add clear row separators */
+.users-table tbody tr { background: var(--surface); }
+.users-table tbody tr td { background: transparent; }
+.users-table tbody tr { border-bottom: 2px solid rgba(15,23,42,0.06); }
+.users-table tbody tr:hover { background: rgba(53, 156, 246, 0.10); }
+
+/* center-align director column if it's marked with the class; fallback to 3rd column */
+.users-table th.col-director, .users-table td.col-director,
+.users-table th:nth-child(3), .users-table td:nth-child(3) {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.inactive-badge { display:inline-block; padding:6px 10px; border-radius:12px; font-size:0.85em; color:var(--text-muted); background:#f3f4f6; font-weight:600; border:1px solid rgba(15,23,42,0.02); }
+
+.team-list-item { padding:10px 0; border-bottom:1px solid rgba(15,23,42,0.02); }
+.team-manager-name { color: var(--accent); font-weight:600; }
+
+/* Modal styled to match dashboard panels */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.35); align-items:center; justify-content:center; z-index:1200; }
+.modal-overlay.show, .modal-overlay[style*="display:flex"] { display:flex; }
+
+.modal-card { background: var(--surface); padding:20px; border-radius:10px; width:572px; box-shadow:none; color:var(--text-main); border:1px solid var(--muted-1); }
+
+/* Form inputs inside modals */
+.modal-input, .team-input {
+  width:100%;
+  padding:12px;
+  margin-bottom: 6px;
+  margin-top:5px;
+  border-radius:8px;
+  background:#ffffff;
+  color: var(--text-main);
+  border:1px solid #e6e9ee;
+  box-sizing: border-box;
+}
+
+/* Modal header (title + close) to match Roles/Users pages */
+.modal-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; justify-content:space-between; }
+.modal-header h3 { margin:0; font-size:1.125rem; flex:0 0 auto; }
+.modal-header .modal-close { margin-left:12px; background:transparent; border:1px solid transparent; font-size:18px; line-height:1; cursor:pointer; color:var(--text-muted); padding:8px 10px; border-radius:6px; align-self:center; }
+.modal-header .modal-close:hover, .modal-header .modal-close:focus { background: rgba(0,0,0,0.04); color:var(--text-main); outline:none; box-shadow:0 0 0 3px var(--accent-shadow-subtle); }
+
+/* Small utilities & layout */
+.col-id { width:8%; }
+.col-dept { width:24%; }
+.col-director { width:24%; }
+.col-teams { width:44%; }
+
+.team-row { display:flex; gap:14px; margin-bottom:10px; }
+.team-row .team-name, .team-row .team-manager { flex:1; }
+
+.team-list { list-style:none; padding:0; margin:0; }
+
+/* Responsive niceties */
+@media (max-width:900px) {
+  .modal-card { width: 92%; min-width: auto; }
+  .col-id, .col-dept, .col-director, .col-teams { width: auto; }
+}
+
+/* small helper for borders consistent with theme */
+.border-subtle { border:1px solid rgba(15,23,42,0.04); }
+

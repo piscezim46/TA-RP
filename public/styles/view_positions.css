@@ -1,0 +1,864 @@
+/* Modal select dropdowns: ensure dark background and readable option text
+   Some browsers ignore option styling, but most will respect background/color here.
+   Target modal selects and the positions filters so create/edit forms remain readable. */
+.modal-card select,
+textarea.modal-input,
+.modal-card select option,
+.positions-filters select,
+.positions-filters select option,
+.positions-filters input[type="search"],
+.positions-filters input[type="text"],
+.positions-filters input[type="date"], 
+input.modal-input[type="number"], input.modal-input[type="text"], 
+input.modal-input[type="date"]
+{
+  background-color: rgba(255, 255, 255, 0.901) !important;
+  color: #000000 !important;
+  border-color: rgba(0,0,0,0.2) !important;
+}
+input.modal-input[type="text"]{
+  color: var(--text-main,#111827) !important;
+}
+/* Improve contrast for focused selects inside modal/filters */
+.modal-card select:focus,
+.positions-filters select:focus {
+  outline: none !important;
+}
+
+/* If the browser shows a native dropdown list, ensure option text is visible there too */
+select option { border-color: rgba(255,255,255,0.06); background: #111827 !important; color: #e8eef6 !important; }
+
+
+:root {
+    /* Align theme tokens with Users/Roles pages (light theme tokens).
+       Only color values changed here to match Users/Routes; layout
+       and component sizing remain as-is. */
+    --accent-soft: rgba(53,156,246,0.06);
+    --card-bg: #ffffff;
+    --panel-bg: #fafafa;
+    --muted: #111827; /* primary text color used on Users/Roles */
+    --accent: #359cf6; /* use global accent token from layout.css */
+  --accent-rgb: 53,156,246;
+  --accent-shadow-subtle: rgba(var(--accent-rgb), 0.06);
+  --accent-shadow-strong: rgba(var(--accent-rgb), 0.12);
+    --lead: var(--accent); /* use global accent token from layout.css */
+    --table-divider: rgba(15,23,42,0.04);
+    --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
+}
+
+/* Buttons */
+.btn-orange{ background: var(--accent); color:#ffffff; border:none; margin-bottom: 5px; padding:10px 14px; border-radius:10px; font-weight:700; cursor:pointer; box-shadow: none; transition:transform .15s ease, box-shadow .15s ease; }
+.btn-orange:hover{ transform:translateY(-1px); box-shadow:0 6px 14px var(--accent-shadow-subtle); }
+.btn-ghost{ background:#222; color:#eee; border:1px solid #333; padding:10px 14px; border-radius:10px; cursor:pointer; }
+
+/* Page base */
+html, body { height: 100%; margin: 0; background: var(--bg-color, transparent); color: var(--muted); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+.content-area { padding: 20px 32px; background: transparent; min-height: 100vh; color: var(--muted); box-sizing: border-box; }
+
+.page-title { color: var(--accent); font-size: 1.9rem; font-weight: 700; margin: 0 0 24px 0; text-shadow: none; }
+
+/* Card / panel */
+.positions-card {min-height: 95%; background: var(--card-bg); border-radius: 14px; box-shadow: none; padding: 22px; margin-bottom: 28px; overflow: auto; border-left: 6px solid var(--accent); box-sizing: border-box;}
+
+/* Table */
+.positions-table { width: 100%; border-collapse: collapse; table-layout: fixed; background: transparent; color: var(--muted); font-size: 15px; }
+.positions-table th, .positions-table td { padding: 12px 14px; text-align: left; vertical-align: middle; border-bottom: 1px solid var(--table-divider); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.positions-table th { background: #171717; color: var(--lead); font-weight: 700; font-size: 0.95em; border-bottom: 2px solid rgba(255,102,0,0.10); }
+.positions-table tbody tr { background: linear-gradient(180deg, rgba(0,0,0,0.02), transparent); transition: background 0.12s, transform 0.08s; }
+.positions-table tbody tr:hover { background: rgba(255,102,0,0.03); transform: translateY(-1px); }
+
+/* Grid */
+.positions-grid { display: grid; grid-template-columns: repeat(4, minmax(300px, 1fr)); gap: 18px; padding: 20px; align-items: start; justify-content: center; overflow: auto; }
+.positions-grid { scrollbar-width: thin; scrollbar-color: var(--accent) rgba(255,255,255,0.02); }
+.positions-grid::-webkit-scrollbar { width: 12px; }
+.positions-grid::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 10px; }
+.positions-grid::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--accent)); border-radius: 10px; border: 3px solid transparent; background-clip: padding-box; }
+.positions-grid::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #ffffff, #ffffff); }
+
+@media (max-width: 1300px) { .positions-grid { grid-template-columns: repeat(3, minmax(280px, 1fr)); } }
+@media (max-width: 1000px) { .positions-grid { grid-template-columns: repeat(2, minmax(260px, 1fr)); } }
+@media (max-width: 600px)  { .positions-grid { grid-template-columns: repeat(1, 1fr); padding: 12px; } }
+
+/* Page-scoped components (moved from inline styles in view_positions.php) */
+.position-ticket {
+  background:#111827;
+  border:1px solid rgba(255,255,255,0.03);
+  border-left:5px solid #ffffffff; /* overridden inline if needed */
+  padding:12px;
+  border-radius:10px;
+  box-shadow: none;
+  cursor:pointer;
+  height:240px;                /* slightly reduced fixed height for denser lists */
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition: transform .18s ease, box-shadow .18s ease;
+  overflow:hidden;
+  color: var(--muted);
+}
+.position-ticket {
+  background:#111827;
+  border:1px solid rgba(255,255,255,0.03);
+  border-left:5px solid #ffffffff; /* overridden inline if needed */
+  padding:12px;
+  border-radius:10px;
+  box-shadow: none;
+  cursor:pointer;
+  height:240px;                /* slightly reduced fixed height for denser lists */
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition: transform .18s ease, box-shadow .18s ease;
+  overflow:hidden;
+}
+.position-ticket:hover{
+  transform: translateY(-7px);
+  box-shadow:0 10px 30px var(--accent-shadow-strong);
+}
+.positions-filters .filters-actions {
+  cursor: pointer;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.positions-filters .filters-actions .btn-orange { background: var(--accent); color: #fff; border: 1px solid rgba(255,255,255,0.06); }
+
+/* Header row: title left, create button extreme right */
+.positions-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0 10px 0;
+  width: auto; /* don't force full-width so filters can sit beside header */
+}
+.positions-header-row .page-title { margin: 0; color: var(--accent); font-size: 1.6rem; font-weight: 700; }
+.positions-header-row .header-actions { margin-left: auto; display: flex; align-items: center; }
+.positions-header-row .header-actions .btn-orange { background: var(--accent) !important; color: #fff !important; border: none; }
+
+/* old inline placement removed from markup; hide legacy actions selector if present */
+.positions-filters .filters-actions { display: none; }
+
+/* Ticket / Card */
+.position-ticket {
+    background: #fff;
+    border:1px solid rgba(0,0,0,0.04);
+    padding:12px;
+    border-left:5px solid transparent; /* color set inline per-item */
+    border-radius:10px;
+    box-shadow: none;
+    cursor:pointer;
+    height:240px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    transition: transform .18s ease, box-shadow .18s ease;
+    overflow:hidden;
+    color: var(--muted);
+}
+.position-ticket:hover{ transform: translateY(-6px); box-shadow:0 10px 30px var(--accent-shadow-strong); }
+.position-ticket .pos-title { font-weight:600; font-size:0.94rem; color:var(--muted); margin-bottom:6px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.position-ticket .pos-sub { color:#6b7280; font-size:12px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.requirements-preview { color:#374151; font-size:13px; line-height:1.35; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:6; overflow:hidden; text-overflow:ellipsis; max-height: calc(1.35em * 6); }
+.pos-footer { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:8px; color:#6b7280; font-size:12px; }
+.ticket-header { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+.ticket-left { flex:1; min-width:0; }
+.ticket-right { margin-left:12px; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+.pos-id-badge { display:inline-block; padding:4px 8px; border-radius:999px; font-weight:700; font-size:12px; background: #f3f4f6; border:1px solid rgba(15,23,42,0.04); color: var(--muted); user-select:none; }
+.pos-created { font-size:13px; color:#6b7280; text-align:right; }
+
+/* Empty state */
+.empty-state { min-height:220px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:10px; color:#6b7280; border:1px dashed rgba(15,23,42,0.06); border-radius:10px; background:#fff; }
+.empty-state .title { font-size:18px; font-weight:700; color:var(--muted); }
+.empty-state .desc { font-size:13px; color:#6b7280; }
+
+/* Small helpers moved from inline */
+.modal-cancel-btn { border:1px solid rgba(15,23,42,0.16); background:var(--accent); color:var(--muted); padding:4px 18px; border-radius:8px; }
+
+
+/* Modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1200; align-items: center; justify-content: center; }
+.modal-overlay[style*="display: flex"], .modal-overlay[style*="display:flex"] { display: flex !important; }
+/* Modal: use same light theme as Create User / Create Department modals */
+.modal-card { width: 700px; max-width: 94%; border-radius: 12px; padding: 22px; box-sizing: border-box; margin: 0 auto; background: var(--surface, #ffffff); color: var(--text-main, #111827); box-shadow: none; border: 1px solid rgba(15,23,42,0.14); }
+
+/* Modal inputs */
+.modal-input { margin:3px; width:100%; padding:10px; background:#ffffff; color:var(--text-main,#111827); border: 1px solid rgba(15,23,42,0.16); border-radius:8px; box-sizing:border-box; }
+.modal-input:active, .modal-input:focus, #reqInput { background: #ffffff; color: var(--text-main,#111827); outline: none; }
+
+/* Disabled field styling inside modals: make it obvious the field is not editable */
+.modal-card input:disabled,
+.modal-card input[disabled],
+.modal-card select:disabled,
+.modal-card select[disabled],
+.modal-card textarea:disabled,
+.modal-card textarea[disabled],
+.modal-card .modal-input:disabled {
+  background: #f3f4f6; /* light gray surface */
+  color: rgba(17,24,39,0.5); /* muted dark text */
+  border: 1px solid rgba(15,23,42,0.08);
+  cursor: not-allowed;
+  opacity: 0.95;
+  box-shadow: none;
+}
+
+/* Ensure plain text/number/date inputs inside modal receive the same focus/active effects
+   even if they don't carry the `modal-input` class. */
+.modal-card input[type="text"]:focus,
+.modal-card input[type="number"]:focus,
+.modal-card input[type="date"]:focus,
+.modal-card textarea:focus,
+.modal-card select:focus,
+.modal-card .modal-input:focus {
+  outline: none;
+}
+
+.modal-card input[type="text"]:active,
+.modal-card input[type="number"]:active,
+.modal-card input[type="date"]:active,
+.modal-card textarea:active,
+.modal-card select:active,
+.modal-card .modal-input:active {
+  box-shadow: 0 6px 20px white;
+}
+.modal-add-btn { background: var(--accent); color:#fff; padding:6px 12px; margin-left:6px; cursor:pointer; border-radius:8px; border: none; }
+.modal-submit-btn { background: var(--accent); color:#fff; padding:10px 18px; font-weight:bold; border-radius:8px; cursor:pointer; border:none; }
+
+
+/* small helpers for viewer/modal content */
+.viewer-header-actions { display:flex; align-items:center; gap:10px; }
+.viewer-meta { color:#6b7280; margin:6px 0 12px 0; font-size:13px; }
+.loading-placeholder { padding:12px; color:#6b7280; }
+.status-badge { display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; font-size:13px; box-shadow: none; }
+.ticket-actions-row { display:flex; gap:10px; align-items:center; margin-top:8px; }
+.status-meta { color:#6b7280; font-size:13px; margin-top:4px; }
+.req-tags { margin-top:10px; }
+.modal-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:12px; }
+
+/* Debug banner (shown when queries fail) */
+.db-debug-error { padding:18px; background:#2b2b2b; color:#ffd6d6; border:1px solid #6b1f1f; margin:12px; border-radius:6px; }
+
+/* Small UI bits */
+#reqList span { background:#333; color: var(--accent); padding:4px 10px; border-radius:4px; display:inline-block; }
+.action-btn { color: var(--accent); }
+
+@media (min-width:1000px) { .modal-card { width:92%; padding:18px; } .content-area { padding:16px; } }
+:root {
+  /* local --accent removed to use centralized theme variable */
+  --accent-soft: rgba(255,102,0,0.06);
+    --card-bg: #1a1a1a;
+    --panel-bg: #121212;
+    --muted: #f5f5f5;
+    --lead: #FFB58A;
+    --table-divider: rgba(255,102,0,0.04);
+    --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
+}
+
+/* Keep base/page sizing but let the global layout provide margins/padding */
+.content-area .positions-card { box-sizing: border-box; }
+.content-area {background: rgba(240, 240, 240, 0.900);}
+
+/* Do not change html/body or body overflow here — centralized styles manage scrolling */
+
+
+/* positions-card becomes a column container; header/table head fixed, body scrolls */
+.positions-card {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden; /* hide overflow so only .tbody-scroll shows scrollbars */
+  box-shadow: none;
+  max-height: 1060px;
+      /* Fill the entire content area so the card extends leftwards up to the sidebar edge. */
+      width: 100%;
+      max-width: none;
+      box-sizing: border-box;
+      margin: 0;
+}
+
+
+/* Header / thread area above the table (non-scrollable) */
+.positions-header {
+  flex: 0 0 auto;
+  padding: 14px 18px;
+  background: var(--card);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* head-table stays static (non-scrollable) */
+.head-table {
+  flex: 0 0 auto;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+/* head table styles */
+.head-table th {
+  padding: 10px 12px;
+  background: var(--card);
+  color: #ccc;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  text-align: left;
+}
+
+/* rows area becomes the scrollable region and fills remaining height */
+.tbody-scroll {
+  flex: 1 1 auto;
+  min-height: 0; /* critical for flex container scroll behavior */
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  background: transparent;
+  max-height: 1000px;
+}
+
+/* body table inside scroll area */
+.body-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+/* keep status column compact */
+.head-table th:nth-child(3),
+.body-table td:nth-child(3) {
+  width: 10%;
+  text-align:center;
+  white-space: nowrap;
+}
+
+/* equal widths for remaining columns */
+.head-table th, .body-table td {
+  /* distribute remaining width: 9 columns */
+  width: calc(100% / 9);
+  padding: 10px 12px;
+  vertical-align: top;
+  box-sizing: border-box;
+}
+
+/* make requirements wrap nicely */
+.body-table td { white-space: pre-wrap; }
+
+/* small visual tweaks */
+.status-badge { display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; font-size:13px; }
+.positions-card .head-table th { font-size: 0.95rem; }
+
+/* responsive: smaller paddings on small screens */
+@media (max-width:900px){
+  .content { padding: 8px 12px; }
+  .head-table th, .body-table td { padding: 8px 10px; font-size: 13px; }
+}
+
+/* add/replace CSS for ticket sizing, truncation and hover */
+.position-ticket {
+  background:#111827;
+  border:1px solid rgba(255,255,255,0.03);
+  border-left:5px solid #ffffffff; /* overridden inline if needed */
+  padding:12px;
+  border-radius:10px;
+  box-shadow: none;
+  cursor:pointer;
+  height:240px;                /* slightly reduced fixed height for denser lists */
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition: transform .18s ease, box-shadow .18s ease;
+  overflow:hidden;
+}
+
+.position-ticket:hover{
+  transform: translateY(-7px);
+}
+
+/* title single-line ellipsis */
+.position-ticket .pos-title {
+  font-weight:600;
+  font-size:0.94rem;     /* smaller title for compact layout */
+  color:#fff;
+  margin-bottom:6px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+/* department/team line */
+.position-ticket .pos-sub {
+  color:#bbb;
+  font-size:12px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.positions-filters {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start; /* allow multiple rows and let container grow */
+  flex-wrap: wrap; /* allow filters to wrap to additional lines */
+  padding: 8px 8px;
+  background: transparent; /* don't cover header/title */
+  border-bottom: 1px solid rgba(15,23,42,0.12); /* slightly darker border for contrast */
+  box-shadow: none;
+  overflow: visible; /* prevent visible scrollbar */
+  -webkit-overflow-scrolling: touch;
+  /* hide any accidental scrollbars while keeping scrolling available when needed */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+/* Make the inner controls take the remaining horizontal space and render as a single row */
+.positions-filters .filters-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex: 1 1 auto;        /* take remaining space next to header/actions */
+  min-width: 0;         /* allow shrinking inside flex containers */
+  flex-wrap: wrap;    /* allow multiple rows when needed */
+  overflow: visible;     /* prevent visible scrollbar */
+  -webkit-overflow-scrolling: touch;
+  padding-right: 6px;   /* small breathing room */
+  scrollbar-width: none;
+}
+
+.positions-filters .filters-controls > * {
+  flex: 0 0 auto; /* each control keeps its intrinsic size */
+}
+
+/* Ensure inputs/selects inside filters-controls are compact and keep readable min-width */
+.positions-filters .filters-controls select,
+.positions-filters .filters-controls input[type="date"],
+.positions-filters .filters-controls input[type="text"],
+.positions-filters .filters-controls input[type="search"] {
+  min-width: 140px;
+  max-width: 28vw;
+}
+
+/* On very small screens allow wrapping as last resort */
+@media (max-width: 520px) {
+  .positions-filters .filters-controls { flex-wrap: nowrap; }
+  .positions-filters .filters-controls select,
+  .positions-filters .filters-controls input[type="date"],
+  .positions-filters .filters-controls input[type="text"],
+  .positions-filters .filters-controls input[type="search"] { min-width: 120px; }
+}
+/* requirements preview: clamp to fixed number of lines and show "..." */
+.requirements-preview {
+  color:#e6e6e6;
+  font-size:13px;
+  line-height:1.35;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:6; /* show up to 6 lines */
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-height: calc(1.35em * 6); /* fallback */
+}
+
+/* footer row inside the ticket */
+.position-ticket .pos-footer {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-top:8px;
+  color:#aaa;
+  font-size:12px;
+}
+
+/* remove small inline controls if present */
+.position-ticket .ticket-actions { display:none; }
+
+/* responsive: slightly reduce height on small screens */
+@media (max-width:760px){
+  .position-ticket { height:220px; -webkit-line-clamp:5; }
+  .requirements-preview { -webkit-line-clamp:5; }
+}
+
+/* add/replace CSS for grid and modal (insert into the <style> block) */
+
+/* grid: 4 cards per row with more breathing room (larger min width) */
+.positions-grid {
+  display: grid;
+  /* increase min width so each card has more horizontal space */
+  grid-template-columns: repeat(4, minmax(300px, 1fr));
+  gap: 18px;
+  padding: 20px;
+  align-items: start;
+  justify-content: center;
+  overflow: auto;
+}
+
+/* Scrollbar styling for the positions grid (WebKit + Firefox) */
+.positions-grid {
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+}
+.positions-grid::-webkit-scrollbar {
+  width: 12px;
+}
+.positions-grid::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.02);
+  border-radius: 10px;
+}
+.positions-grid::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent), #D97706);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+.positions-grid::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #FFA65A, #F59E0B);
+}
+
+/* responsive: 3 / 2 / 1 columns as viewport narrows */
+@media (max-width: 1300px) {
+  .positions-grid { grid-template-columns: repeat(3, minmax(280px, 1fr)); justify-content: center; }
+}
+@media (max-width: 1000px) {
+  .positions-grid { grid-template-columns: repeat(2, minmax(260px, 1fr)); justify-content: center; }
+}
+@media (max-width: 600px) {
+  .positions-grid { grid-template-columns: repeat(1, 1fr); padding: 12px; justify-content: center; }
+}
+
+/* Modal overlay + card styling so the existing modal in the page becomes visible and centered */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  align-items: center;
+  justify-content: center;
+  /* Anchor the grid to the right so cards align to the page's right frame (next to the topbar/sidebar).
+     On smaller viewports we'll revert to centered layout in the media queries below. */
+  justify-content: end;
+  padding: 20px;
+}
+.modal-overlay.show {
+  display: flex;
+}
+.modal-card {
+  /* take 50% of the viewport width on wide screens */
+  width: 60vw;
+  max-width: 1500px;
+  min-width: 640px;           /* prevents it becoming too narrow on large screens */
+  background: var(--surface, #ffffff);
+  color: var(--text-main, #111827);
+  border-radius: 10px;
+  box-shadow: none;
+  max-height: 90vh;
+  overflow: auto;
+  padding: 18px;
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid rgba(15,23,42,0.04);
+}
+.modal-card,
+#posViewerModal .modal-card {
+  /* Simple, unobtrusive scrollbar for modal content */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(255,255,255,0.12) transparent;
+}
+.modal-card::-webkit-scrollbar,
+#posViewerModal .modal-card::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.modal-card::-webkit-scrollbar-track,
+#posViewerModal .modal-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+.modal-card::-webkit-scrollbar-thumb,
+#posViewerModal .modal-card::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.12);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.modal-card::-webkit-scrollbar-thumb:hover,
+#posViewerModal .modal-card::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.18);
+}
+.modal-card .modal-header {
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  margin: 0 0 10px 0;
+}
+.modal-card .modal-close-x {
+  appearance:none; border:0; background:transparent; color:var(--text-muted,#6b7280);
+  font-size:22px; line-height:1; cursor:pointer; padding:6px 8px; border-radius:8px;
+  border: 1px solid transparent;
+}
+.modal-card .modal-close-x:hover,
+.modal-card .modal-close-x:focus { background: rgba(0,0,0,0.04); color: var(--text-main,#111827); outline: none;  }
+
+/* ensure inline field rows distribute four children evenly */
+.modal-card .field.inline {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex-wrap: wrap; /* allow wrapping on small screens */
+}
+
+/* each child column should flex and not force overflow */
+.modal-card .field.inline > div {
+  flex: 1 1 0;
+  min-width: 180px; /* allow shrinking but keep usable inputs */
+  box-sizing: border-box;
+}
+
+/* responsive: let modal shrink on smaller screens */
+@media (max-width: 1100px) {
+  .modal-card { max-width: 980px; min-width: unset; width: calc(100% - 40px); }
+  .modal-card .field.inline > div { min-width: 220px; }
+}
+@media (max-width: 700px) {
+  .modal-card { width: calc(100% - 24px); max-width: 680px; }
+  .modal-card .field.inline { flex-direction: column; gap:10px; }
+}
+.positions-filters {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start; /* allow multiple rows and let container grow */
+  flex-wrap: wrap; /* allow filters to wrap to additional lines */
+  padding: 8px 8px;
+  background: transparent; /* don't cover header/title */
+  border-bottom: 1px solid rgba(15,23,42,0.12); /* slightly darker border for contrast */
+  box-shadow: none;
+  overflow: visible; /* prevent visible scrollbar */
+  -webkit-overflow-scrolling: touch;
+  /* hide any accidental scrollbars while keeping scrolling available when needed */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.positions-filters label { color: var(--muted, #111827); font-weight:600; margin-right:6px; }
+
+.positions-filters select,
+.positions-filters input[type="date"],
+.positions-filters input[type="text"],
+.positions-filters input[type="search"] {
+  display: block;
+  box-sizing: border-box;
+  height: 36px;
+  min-width: 160px;
+  width: auto;
+  max-width: 30vw;
+  padding: 8px 10px;
+  margin: 0;
+  font-family: var(--font-sans, Arial, Helvetica, sans-serif);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: start;
+  background-color: #ffffff !important;
+  color: #0b0b0b !important;
+  border: 1px solid rgba(15,23,42,0.08) !important;
+  border-radius: 8px;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: box-shadow .12s ease, border-color .12s ease, transform .08s ease;
+}
+
+.positions-filters select:focus,
+.positions-filters input:focus {
+  border-color: rgba(var(--accent-rgb), 0.18);
+  transform: translateY(-1px);
+  background-color: #ffffff;
+}
+
+/* ensure the filters wrap nicely on small viewports */
+@media (max-width: 900px) {
+  .positions-filters select,
+  .positions-filters input[type="date"],
+  .positions-filters input[type="text"],
+  .positions-filters input[type="search"] {
+    width: auto;
+    min-width: 120px;
+  }
+}
+
+/* Overrides: ensure filter controls use the calm white theme */
+.positions-filters .filters-controls > label {
+  color: var(--muted, #111827) !important;
+  font-weight: 600;
+}
+
+.positions-filters .filters-controls select,
+.positions-filters .filters-controls input[type="date"],
+.positions-filters .filters-controls input[type="text"],
+.positions-filters .filters-controls input[type="search"] {
+  background: #ffffff !important;
+  color: #0b0b0b !important;
+  border: 1px solid rgba(15,23,42,0.16) !important; /* darker border for filters */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.positions-filters .filters-controls select option {
+  background: #ffffff !important;
+  color: #0b0b0b !important;
+}
+
+.positions-filters .filters-controls select:focus,
+.positions-filters .filters-controls input:focus {
+  border-color: rgba(var(--accent-rgb), 0.22) !important; /* slightly stronger focus border */
+  transform: translateY(-1px);
+  background-color: #ffffff !important;
+}
+
+/* Prevent native dropdowns / controls from flipping to unexpected colors on focus */
+.positions-filters .filters-controls select:focus,
+.positions-filters .filters-controls select:active,
+.positions-filters .filters-controls select:-moz-focusring,
+.positions-filters .filters-controls input:focus,
+.positions-filters .filters-controls input:active {
+  background: #ffffff !important;
+  color: #0b0b0b !important;
+  -webkit-text-fill-color: #0b0b0b !important;
+  border-color: rgba(var(--accent-rgb), 0.18) !important;
+}
+
+/* Hide the default ms expand arrow only visually; keep it accessible */
+.positions-filters .filters-controls select::-ms-expand { display: block; opacity: 0; }
+
+/* empty-state inside the grid when no tickets yet */
+.empty-state {
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  color: #b8c0cc;
+  border: 1px dashed rgba(255,255,255,0.15);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+}
+
+/* mark invalid fields visibly */
+.modal-input.invalid {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 2px rgba(220,38,38,0.25) !important;
+}
+
+/* small "+" button beside Requirements input */
+.modal-add-btn {
+  margin-top: 10px;
+  height: 36px;
+  min-width: 36px;
+  padding: 0 10px;
+  margin-left: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.06);
+  color: #e5e7eb;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.modal-add-btn:hover { background: rgba(255,255,255,0.1); }
+.modal-add-btn:focus { outline: 3px solid rgba(255,102,0,0.35); outline-offset: 2px; }
+
+/* requirements tags (already present, kept here for context) */
+#reqList.req-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.req-tag { display:inline-flex; align-items:center; gap:6px; padding:2px 4px; border-radius:999px; font-size:17px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color:#e5e7eb; }
+.req-tag .req-remove { appearance:none; border:0; background:transparent; color:#94a3b8; cursor:pointer; padding:0 2px; font-size:14px; line-height:1; }
+.req-tag .req-remove:hover { color:#e7e7eb; }
+
+.pos-id-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: white;
+  white-space: nowrap;
+  user-select: none;
+}
+.pos-id-badge:hover { background: rgba(255,255,255,0.10); }
+.pos-created { font-size:13px; color:#aaa; text-align:right; }
+
+/* Ensure action buttons inside the position viewer take correct orange styling
+   when combined with the shared `pos-action-btn` class. Inline styles for
+   status-action buttons will still override these rules when present. */
+.pos-action-btn.btn-orange {
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 8px 12px !important;
+}
+.pos-action-btn.btn-orange:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px var(--accent-shadow-subtle) !important;
+}
+
+/* Status action buttons inside the viewer: small bottom gap and dim behavior
+   so they visually match the softer appearance of Reset/Edit when inactive. */
+.status-action-btn {
+  margin-bottom: 5px;
+  opacity: 0.95;
+  transition: opacity .12s ease, transform .08s ease, box-shadow .12s ease;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.status-action-btn:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px var(--accent-shadow-subtle);
+}
+/* When JS marks a control locked or aria-disabled, dim it like Reset/Edit */
+.status-action-btn[aria-disabled="true"],
+.status-action-btn[data-locked="1"] {
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+/* Viewer-specific: make fields appear clearly disabled until Edit is clicked */
+#posViewerModal .pos-edit-form label {
+  color: rgba(15,23,42,0.56);
+  font-weight: 600;
+}
+
+#posViewerModal .pos-edit-form .modal-input[disabled],
+#posViewerModal .pos-edit-form input[disabled],
+#posViewerModal .pos-edit-form select[disabled],
+#posViewerModal .pos-edit-form textarea[disabled] {
+  background: #f3f4f6 !important; /* light gray surface */
+  color: rgba(17,24,39,0.6) !important; /* muted dark text */
+  border: 1px solid rgba(15,23,42,0.08) !important;
+  cursor: not-allowed !important;
+  opacity: 0.95 !important;
+  box-shadow: none !important;
+}
+
+/* Avoid showing focus or hover glows on disabled fields inside the viewer */
+#posViewerModal .pos-edit-form .modal-input[disabled]:focus,
+#posViewerModal .pos-edit-form .modal-input[disabled]:hover,
+#posViewerModal .pos-edit-form input[disabled]:focus,
+#posViewerModal .pos-edit-form select[disabled]:focus,
+#posViewerModal .pos-edit-form textarea[disabled]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Activity / History content in the position viewer: make text near-black with 0.9 opacity */
+#posEditForm #posHistoryList,
+#posEditForm #posHistoryList * {
+  color: rgba(0,0,0,0.9) !important;
+}
+
+/* Small modifiers for history meta */
+#posEditForm #posHistoryList .history-by { color: rgba(0,0,0,0.65) !important; font-weight:600; }
+#posEditForm #posHistoryList .history-ts { color: rgba(0,0,0,0.45) !important; font-size:12px; margin-left:8px; }
+

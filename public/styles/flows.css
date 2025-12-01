@@ -1,0 +1,211 @@
+/* Styles for Flows management page */
+:root{ --flow-swatch-size:16px; }
+.flows-table { width:100%; border-collapse:collapse; font-family: Inter, 'Segoe UI', sans-serif; }
+.flows-table thead th { text-align:center; padding:10px; border-bottom:2px solid rgba(0,0,0,0.06); background: #fff; }
+.flows-table td, .flows-table th { padding:10px; vertical-align:middle; }
+.flows-table tbody tr:nth-child(odd) { background: rgba(0,0,0,0.008); }
+/* Ensure hover highlight applies to all rows while preserving alternating backgrounds */
+.flows-table tbody tr:hover { background: rgba(53,156,246,0.10); }
+.color-swatch { display:inline-block; width:var(--flow-swatch-size); height:var(--flow-swatch-size); border-radius:4px; margin-right:8px; border:1px solid rgba(0,0,0,0.06); vertical-align:middle; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace; }
+.header-actions { display:flex; gap:8px; align-items:center; }
+.btn { padding:8px 12px; border-radius:6px; display:inline-block; text-decoration:none; }
+.btn-ghost { background:transparent; border:1px solid rgba(0,0,0,0.06); padding:6px 10px; border-radius:6px; color:var(--text-main,#111); text-decoration:none; }
+
+@media (max-width:900px){ .flows-table thead { display:none; } .flows-table tbody td { display:block; width:100%; box-sizing:border-box; } .flows-table tbody td:before { font-weight:700; display:block; }
+}
+
+/* Panel / collapsed row styles moved from page */
+.flow-panel { /* no color/appearance transition to keep open/close seamless */ }
+.flow-collapsed-row .collapsed-table td { background: var(--panel, #fafafa); border:1px solid rgba(15,23,42,0.04); border-radius:6px; }
+.flow-panel-header .flow-panel-title { font-size:1.05rem; }
+.flow-panel .btn-ghost { background: transparent; color: var(--text-main); border:1px solid rgba(15,23,42,0.06); }
+
+.flow-panel-header { cursor: pointer; padding:8px; border-bottom:1px solid rgba(15,23,42,0.04); display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+.flow-panel-actions { margin-left:auto; display:flex; gap:8px; align-items:center; }
+.collapsed-table td { padding:10px; }
+.color-hex { margin-left:8px; font-size:0.95rem; color:var(--text-muted,#6b7280); vertical-align:middle; }
+/* additional moved rules */
+.flow-panel-title { font-weight:700; color:var(--text-main); }
+.flow-collapsed-row { display:none; margin-top:6px; }
+
+/* Give the collapsed container the same card styling as open panel so corners match */
+.flow-collapsed-row.open { display:block; background: var(--panel, #fafafa); border-radius: 8px; padding: 6px; border: 1px solid rgba(15,23,42,0.04); border-left: 6px solid var(--accent); box-shadow: none; overflow: hidden; }
+
+/* Keep the inner table transparent and let the outer container handle the border-radius/left-accent */
+.collapsed-table { width:100%; border-collapse: separate; background: transparent; border: 0; padding: 0; margin: 0; }
+.collapsed-new-btn { margin-left:8px; }
+.collapsed-title { text-align:left; padding:10px; font-weight:700; }
+.collapsed-count { padding:10px; }
+.collapsed-actions { padding:10px; }
+
+/* Make collapsed table row use flex so header and collapsed view match layout */
+.collapsed-table tbody tr { display: flex; align-items: center; gap:12px; }
+.collapsed-title { flex: 0 0 auto; max-width: 55%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.collapsed-count { flex: 0 0 auto; margin-left: 12px; color: var(--text-muted,#6b7280); }
+.collapsed-actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+
+/* Ensure header title relaxes and doesn't take full width; keep consistent with collapsed view */
+.flow-panel-title { flex: 0 0 auto; max-width: 55%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.panel-count { flex: 0 0 auto; margin-left: 12px; color:var(--text-muted,#6b7280); }
+
+/* Flow panel card styling to match Users card */
+.flow-panel > .table-wrap {
+	background: var(--panel, #fafafa);
+	border-radius: 8px;
+	padding: 8px;
+    margin-bottom: 10px;
+	border: 1px solid rgba(15,23,42,0.04);
+	border-left: 6px solid var(--accent);
+	box-shadow: none;
+}
+
+.flow-panel-header .flow-panel-title { flex: 0 0 auto; font-size:1.05rem; }
+.panel-count { margin-left:12px; color:var(--text-muted,#6b7280); font-size:0.95rem; align-self:center; }
+
+.flow-panel-actions .btn { cursor: pointer; box-shadow: none; }
+/* Only apply hover/transform when the button is not disabled */
+.flow-panel-actions .btn:not([disabled]):hover { transform: translateY(-2px); opacity: 0.95; }
+
+/* Visual styling for disabled edit buttons inside panel headers
+   - reduce opacity, remove pointer cursor, and disable pointer events so hover/focus do nothing
+   - keep styling otherwise identical so enabling returns to normal appearance */
+.flow-panel-actions .btn[disabled], .flow-panel-actions button[disabled] {
+    opacity: 0.5;
+    cursor: default;
+    box-shadow: none;
+    transform: none;
+    pointer-events: none;
+}
+
+/* Ensure primary button uses global users theme; don't override color here */
+.flow-panel .btn.primary { box-shadow: none; }
+.btn-primary{
+    background: var(--accent);
+    color: #fff;
+    padding: 8px 12px;
+    font-style: normal;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13.33333px;
+}
+
+/* Make header visually identical to the card when collapsed or when acting as the card header */
+.flow-panel-header {
+    background: var(--panel, #fafafa);
+    border: 1px solid rgba(15,23,42,0.04);
+    border-left: 6px solid var(--accent);
+    padding: 10px 12px;
+    border-radius: 8px;
+    gap: 12px;
+    align-items: center;
+    display: flex;
+}
+
+/* When the records card is expanded, the header should look like the top of the card */
+.flow-panel.expanded > .flow-panel-header { border-radius: 8px 8px 0 0; border-bottom: 0; }
+.flow-panel.expanded > .table-wrap { border-radius: 0 0 8px 8px; margin-top: 0; }
+
+/* When collapsed (no records visible), keep header with full radius */
+.flow-panel:not(.expanded) > .flow-panel-header { border-radius: 8px; }
+
+/* Ensure header actions sit flush to the right */
+.flow-panel-header .flow-panel-actions { margin-left: auto; }
+
+/* Allow scrolling through the records; hide body by default and add bottom spacing */
+.flow-panel-body { max-height: 60vh; overflow: auto; display: none; margin-bottom: 1px; }
+
+/* Show the panel body when the panel is expanded (one panel at a time handled by JS) */
+.flow-panel.expanded > .flow-panel-body { display: block; }
+
+/* Modal-specific adjustments for full-width inputs inside the New Status modals */
+/* Apply to both Positions and Applicants new status modals so fields match */
+#newStatusModal .modal-card input[type="color"],
+#newStatusModalApp .modal-card input[type="color"] {
+    width: 100%;
+    height: 40px;
+    padding: 6px 8px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid rgba(15,23,42,0.06);
+    box-sizing: border-box;
+}
+#newStatusModal .modal-card select,
+#newStatusModalApp .modal-card select {
+    width: 100%;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid rgba(15,23,42,0.06);
+    box-sizing: border-box;
+}
+#newStatusModal .modal-card select[multiple],
+#newStatusModalApp .modal-card select[multiple] {
+    height: 160px;
+}
+
+/* Make the sort number field full width and match other modal fields */
+#newStatusModal .modal-card input[type="number"],
+#newStatusModalApp .modal-card input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid rgba(15,23,42,0.06);
+    box-sizing: border-box;
+}
+
+/* Layout for sort row: two equal columns */
+.sort-row { display:flex; gap:12px; margin-top:6px; }
+.sort-row .sort-col, .sort-row .after-col { flex:1; }
+.sort-row .after-col { display:flex; flex-direction:column; justify-content:flex-start; }
+.sort-row .after-col .small-muted { margin-top:6px; }
+
+/* Edit mode: show row actions and inputs styling */
+.flow-panel.editing .row-actions { display:flex; gap:8px; }
+.row-actions { display:none; }
+.flow-panel.editing .flows-table td { vertical-align: middle; }
+.cell-name input[type="text"], .cell-pool select, .cell-transitions select, .cell-sort input[type="number"], .cell-color input[type="color"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(15,23,42,0.06);
+}
+.cell-active .toggle-switch { display:inline-block; }
+
+/* Active cell is only clickable in edit mode */
+.flow-panel .cell-active { cursor: default; }
+.flow-panel.editing .cell-active { cursor: pointer; }
+
+/* Unified green button styling for Save, Edit/Exit Edit, and New Status */
+.btn.btn-green {
+    background-color: #10b981;
+    color: #ffffff;
+    border: 1px solid #0ea67a;
+}
+.btn.btn-green:hover { background-color: #0ea67a; }
+.btn.btn-green:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Small attention animation used to indicate Exit Edit when user attempts to close while editing */
+@keyframes bounce-quick {
+    0% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+    60% { transform: translateY(0); }
+    100% { transform: translateY(0); }
+}
+.btn.bounce {
+    animation: bounce-quick 420ms ease;
+}
+
+/* Diagram styles */
+.status-diagram { position: relative; width: 100%; min-height: 140px; background: transparent; padding: 18px; box-sizing: border-box; }
+.diagram-nodes { display:flex; gap:18px; align-items:flex-start; justify-content:flex-start; padding:12px; overflow:auto; }
+.diagram-node { background: #fff; border:1px solid rgba(15,23,42,0.06); padding:10px 14px; border-radius:8px; box-shadow:none; min-width:120px; text-align:center; font-weight:700; display:inline-block; }
+.diagram-node .name { display:block; font-size:0.95rem; color:var(--text-main); }
+.diagram-node .meta { display:block; font-size:0.8rem; color:var(--text-muted); margin-top:6px; }
+.diagram-svg { position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none; }
+.diagram-type-btn.active { box-shadow: inset 0 -3px 0 rgba(255,255,255,0.12); transform: translateY(-2px); }
+.diagram-nodes::-webkit-scrollbar{ height:8px; }
+.diagram-nodes::-webkit-scrollbar-thumb{ background: rgba(0,0,0,0.06); border-radius:6px; }

@@ -1,0 +1,150 @@
+/* Users Management Page Stylesheet */
+:root {
+  /* Fallback color variables if not defined elsewhere */
+  --bg: rgba(240, 240, 240, 0.95);
+  --panel: #fafafa;
+  --surface: #ffffff;
+  --accent: #359cf6;
+  --accent-foreground: #111827;
+  --text-main: #111827;
+  --text-muted: #6b7280;
+}
+
+.btn-orange{
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.btn-orange:hover{
+  background: color-mix(in srgb, var(--accent) 85%, transparent);
+}
+
+/* Page and controls */
+.page-container, .content-area { padding: 22px; box-sizing: border-box; background: var(--bg); color: var(--text-main, #111827); }
+h2.section-title { margin: 0 0 12px 0; color: var(--accent); font-weight: 700; }
+.controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:12px; }
+.controls input[type="text"], .controls select { background:#ffffff; color:var(--text-main); border:1px solid rgba(15,23,42,0.06); padding:8px 10px; border-radius:6px; min-width:180px; box-sizing:border-box; }
+.btn { background: var(--panel, #fafafa); color:var(--text-main); border:1px solid rgba(15,23,42,0.06); padding:8px 12px; border-radius:6px; cursor:pointer; }
+.btn.primary { background: var(--accent); color: var(--accent-foreground); border: 1px solid color-mix(in srgb, var(--accent) 85%, transparent); }
+.small-muted { color:var(--text-muted, #6b7280); font-size:0.9em; }
+
+/* Table wrapper */
+.table-wrap { position: relative; background: var(--panel, #fafafa); border-radius: 8px; padding: 6px; border: 1px solid rgba(15,23,42,0.04); box-shadow: none; border-left: 6px solid var(--accent); overflow: auto; max-height: 93%; }
+.users-table { width:100%; border-collapse:collapse; margin-top:8px; table-layout:fixed; background: transparent; }
+.users-table th:first-child, .users-table td:first-child { width:3.84%; max-width:3.84%; }
+.users-table thead th { background: #ffffff; color: var(--text-main); border-bottom: 2px solid rgba(15,23,42,0.06); font-weight:700; position: sticky; top: 0; z-index: 5; }
+.users-table thead th.sortable { cursor: pointer; user-select: none; }
+.users-table thead th { position: relative; }
+.users-table thead th .sort-indicator { display:inline-block; width:18px; text-align:center; margin-left:0; font-size:0.85rem; color:var(--text-muted); position: absolute; right:6px; top: 50%; transform: translateY(-50%); }
+.users-table th, .users-table td { padding:10px; vertical-align: middle; text-align: center; color: var(--text-main); border-bottom: 1px solid rgba(15,23,42,0.04); }
+.users-table tbody tr { background: transparent; }
+.users-table tbody tr:hover { background: rgba(53, 156, 246, 0.10); }
+
+/* Active / inactive badges */
+.active-badge { color:var(--accent-foreground,#111); background:var(--accent); padding:4px 8px; border-radius:6px; font-weight:700; }
+.inactive-badge { background:#f3f4f6; color:var(--text-muted,#6b7280); padding:4px 8px; border-radius:6px; }
+
+/* Selected row visuals */
+.user-row { cursor:pointer; }
+.user-row.selected { box-shadow: none; background: rgba(53,156,246,0.03); border-left: 3px solid rgba(53,156,246,0.18); }
+
+/* Inline edit message for reset password success */
+#editMsg.edit-reset-success { color: #dc2626; font-weight: 700; }
+
+/* Modal (Create User) */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.35); align-items:center; justify-content:center; z-index:1200; }
+.modal-overlay.show, .modal-overlay[style*="display:flex"] { display:flex; }
+.modal-card { background: var(--surface, #ffffff); padding:22px; border-radius:12px; width:720px; max-width:96%; box-shadow:none; color:var(--text-main); border:1px solid rgba(15,23,42,0.04); }
+.modal-card h3 { margin:0 0 8px 0; }
+/* Modal: close button and heading spacing */
+.modal-card { position: relative; }
+/* Header layout: title + close button aligned to the right (roles-style) */
+.modal-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.modal-header h3 { margin: 0; font-size: 1.125rem; }
+.modal-header .modal-close {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--muted, #6b7280);
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+.modal-header .modal-close:hover,
+.modal-header .modal-close:focus {
+  background: rgba(0,0,0,0.04);
+  color: var(--lead, #0f172a);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(53,156,246,0.08);
+}
+
+/* Modal form controls */
+.modal-card label { display:block; margin-top:8px; color:var(--text-muted); font-size:0.9rem; }
+.modal-card input[type="text"], .modal-card input[type="email"], .modal-card input[type="password"], .modal-card select { width:100%; padding:10px; margin-top:6px; border-radius:8px; background:#fff; border:1px solid rgba(15,23,42,0.06); box-sizing:border-box; color:var(--text-main); }
+.modal-card input[disabled] { background:#f8fafc; color:var(--text-muted); }
+.modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:12px; }
+.modal-actions .btn { padding:8px 12px; }
+
+/* Responsive tweaks */
+@media (max-width:720px) { .modal-card { width: 94%; } .users-table th, .users-table td { padding:8px; } }
+
+/* Ensure values inside table cells are visually centered (both horizontal and vertical) */
+.users-table th, .users-table td { text-align: center; vertical-align: middle; }
+.users-table td > * { display: inline-block; margin: 0 auto; vertical-align: middle; text-align: center; }
+.users-table td .btn, .users-table td .active-badge, .users-table td .inactive-badge { display: inline-block; margin: 0 auto; }
+
+/* AVATAR / ICON handling: center images or avatar blocks inside cells */
+.users-table td img, .users-table td .avatar { display: block; margin: 0 auto; max-width: 48px; height: auto; }
+.btn{
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.btn:hover{
+  background: color-mix(in srgb, var(--accent) 85%, transparent);
+}
+
+/* expired password label */
+.expired-text { color: #dc2626; font-weight: 700; }
+
+/* Prevent date values from wrapping and improve numeric alignment */
+.users-col-last-login, .users-col-created {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+}
+
+/* Heat indicator dot for last-login recency */
+.heat-dot { display:inline-block; width:12px; height:12px; border-radius:999px; margin:0 auto; vertical-align:middle; }
+.heat-grey { background:#94a3b8; } /* never */
+.heat-green { background:#10b981; } /* <=7 days */
+.heat-yellow { background:#f59e0b; } /* 8-30 days */
+.heat-red { background:#dc2626; } /* >30 days */
+
+/* Bulk Force Reset button: lighter background on hover without changing size */
+#bulkForceResetBtn {
+  transition: background-color .12s ease, box-shadow .12s ease;
+  transform: none;
+}
+#bulkForceResetBtn:hover {
+  background-color: #fb923c !important; /* slightly lighter orange */
+  cursor: pointer;
+  transform: none;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+}
+
+/* Table header: prevent wrapping and vertically center text */
+.users-table thead th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle; /* ensure centered vertically */
+  text-align: center; /* horizontally center label */
+  line-height: 1.2; /* keep header compact */
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
