@@ -27,7 +27,7 @@ try {
     // Prefer a custom http_code property if the thrown exception provides one,
     // otherwise fall back to the exception code or 400.
     if (isset($e->http_code)) {
-        $code = (int)$e->http_code;
+        // $code = (int)$e->http_code;
     } elseif ($e->getCode()) {
         $code = (int)$e->getCode();
     } else {

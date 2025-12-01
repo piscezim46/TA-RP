@@ -45,8 +45,9 @@ function validate_flow_input($conn, $data, $type = 'positions') {
     if ($sort_order <= 0) {
         throw new FlowValidationException('Sort order must be greater than 0', 400);
     }
-    if (!is_array($transitions) || count($transitions) === 0) {
-        throw new FlowValidationException('At least one transition must be selected', 400);
+    // Transitions may be empty (no outgoing transitions) — allow empty array
+    if (!is_array($transitions)) {
+        $transitions = [];
     }
 
     // check sort uniqueness among active statuses
