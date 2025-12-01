@@ -1,6 +1,6 @@
 <?php
 $host = "localhost";
-$user = "talentarp_user";
+$user = "root";
 $pass = "Hayder.2085.root";
 $db   = "talentarp_db";
 
