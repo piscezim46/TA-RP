@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="login-logo-wrap">
           <img src="assets/White-Bugatti-Logo.webp" alt="Company logo" class="login-logo" style="width:240px;height:auto;" onerror="this.style.display='none'" />
         </div>
-        <div class="login-title">Test Talent Acquisition</div>
+        <div class="login-title">Talent Acquisition</div>
         <div class="login-subtitle">Recruitment Platform</div>
         <div class="login-quote">HELPING YOU HIRE WONDERFUL PEOPLE</div>
     </div>
